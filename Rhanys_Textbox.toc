@@ -1,0 +1,10 @@
+## Interface: 100002
+## Title: Rhany's Textbox
+## Notes: Unoptimized af
+## Version: 0.0.1
+## SavedVariables: rtbDB
+## SavedVariablesPerCharacter: dungeonTexts, lastDungeon, locked
+
+libs\load_libs.xml
+
+Rhanys_Textbox.lua
