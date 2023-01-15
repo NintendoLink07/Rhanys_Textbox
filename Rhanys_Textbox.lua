@@ -63,21 +63,41 @@ function rtbInitializeSavedVars()
 	if(locked == nil) then
 		locked = false
 	end
-
+	
 	if(locked) then
-		rtbLock.backdropInfo = backdropInfoLockUp
+		--rtbMainFrame:SetMovable(false)
 		rtbMainFrame:EnableMouse(false)
-		rtbResizeGrabber:Hide()
 		rtbLock.backdropInfo = backdropInfoLockUp
+		locked = true
+		
+		rtbResizeGrabber:Hide()
+		rtbSlider:Hide()
+		dungeonDropMenu:Hide()
+		rtbMainFrame.closeButton:Hide()
+		rtbLock:ClearAllPoints()
+		rtbLock:SetPoint("TOPLEFT", 0, 0)
+		eb:Disable()
+		
+		rtbMainFrame:ClearBackdrop()
 	else
-		rtbLock.backdropInfo = backdropInfoUnlockUp
+		--rtbMainFrame:SetMovable(true)
 		rtbMainFrame:EnableMouse(true)
-		rtbResizeGrabber:Show()
 		rtbLock.backdropInfo = backdropInfoUnlockUp
+		locked = false
+		
+		rtbResizeGrabber:Show()
+		rtbSlider:Show()
+		dungeonDropMenu:Show()
+		rtbMainFrame.closeButton:Show()
+		rtbLock:ClearAllPoints()
+		rtbLock:SetPoint("TOPRIGHT", -rtbMainFrame.closeButton:GetWidth(), 0)
+		eb:Enable()
+		
+		rtbMainFrame.backdropInfo = rtbMainFrameBackdropInfo
+		rtbMainFrame:ApplyBackdrop()
 	end
 	
 	rtbLock:ApplyBackdrop()
-
 end
 
 function rtbLoadDefaults()
@@ -226,7 +246,7 @@ function rtbInitializeFrames()
 	rtbMainFrame:SetResizeBounds(screenWidth / 10, screenHeight / 12, screenWidth / 4, screenHeight / 3)
 	--rtbResizeFrame(rtbMainFrame)
 
-	local backdropInfo =
+	rtbMainFrameBackdropInfo =
 	{
 		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 		edgeFile = "Interface\\Glues\\Common\\TextPanel-Border",
@@ -234,7 +254,7 @@ function rtbInitializeFrames()
 		edgeSize = 16,
 	}
 	
-	rtbMainFrame.backdropInfo = backdropInfo  -- from FrameXML/Backdrop.lua
+	rtbMainFrame.backdropInfo = rtbMainFrameBackdropInfo  -- from FrameXML/Backdrop.lua
 	rtbMainFrame:ApplyBackdrop()
 
 	rtbResizeGrabber = CreateFrame("Frame", nil, rtbMainFrame)
@@ -292,21 +312,40 @@ function rtbInitializeFrames()
 	}
 
 	rtbLock:SetSize(24, 24)
-	rtbLock:SetPoint("BOTTOMLEFT", 0, 0)
+	rtbLock:SetPoint("TOPRIGHT", -rtbMainFrame.closeButton:GetWidth(), 0)
 	rtbLock:SetScript("OnClick",
 		function()
 			if(rtbMainFrame:IsMouseEnabled()) then
 				--rtbMainFrame:SetMovable(false)
 				rtbMainFrame:EnableMouse(false)
-				rtbResizeGrabber:Hide()
 				rtbLock.backdropInfo = backdropInfoLockUp
 				locked = true
+				
+				rtbResizeGrabber:Hide()
+				rtbSlider:Hide()
+				dungeonDropMenu:Hide()
+				rtbMainFrame.closeButton:Hide()
+				rtbLock:ClearAllPoints()
+				rtbLock:SetPoint("TOPLEFT", 0, 0)
+				eb:Disable()
+				
+				rtbMainFrame:ClearBackdrop()
 			else
 				--rtbMainFrame:SetMovable(true)
 				rtbMainFrame:EnableMouse(true)
-				rtbResizeGrabber:Show()
 				rtbLock.backdropInfo = backdropInfoUnlockUp
 				locked = false
+				
+				rtbResizeGrabber:Show()
+				rtbSlider:Show()
+				dungeonDropMenu:Show()
+				rtbMainFrame.closeButton:Show()
+				rtbLock:ClearAllPoints()
+				rtbLock:SetPoint("TOPRIGHT", -rtbMainFrame.closeButton:GetWidth(), 0)
+				eb:Enable()
+				
+				rtbMainFrame.backdropInfo = rtbMainFrameBackdropInfo
+				rtbMainFrame:ApplyBackdrop()
 			end
 
 			rtbLock:ApplyBackdrop()
@@ -319,6 +358,7 @@ function rtbInitializeFrames()
 			rtbLock:ApplyBackdrop()
 		end
 	)
+	
 	
 	rtbMainFrame:RegisterEvent("PLAYER_ENTERING_WORLD")	
 	rtbMainFrame:RegisterEvent("PLAYER_LOGIN")
@@ -333,6 +373,8 @@ function rtbInitializeFrames()
 	rtbScrollChild:SetHeight(1)
 	
 	rtbScrollFrame:SetScrollChild(rtbScrollChild)
+	
+	rtbSlider = _G[rtbScrollFrame:GetName() .. "ScrollBar"];
 	
 	-- EditBox
 	eb = CreateFrame("EditBox", "RTBEditBox", rtbScrollChild)
