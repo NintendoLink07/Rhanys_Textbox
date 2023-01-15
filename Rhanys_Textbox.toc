@@ -3,7 +3,7 @@
 ## Notes: Unoptimized af
 ## Version: 0.0.1
 ## SavedVariables: rtbDB
-## SavedVariablesPerCharacter: dungeonTexts, lastDungeon, states
+## SavedVariablesPerCharacter: dungeonTexts, lastDungeon, locked
 
 libs\load_libs.xml
 
