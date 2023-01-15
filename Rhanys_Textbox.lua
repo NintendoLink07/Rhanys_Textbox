@@ -222,7 +222,8 @@ function rtbInitializeFrames()
 	screenWidth = floor(GetScreenWidth() / GetCVar("RenderScale"))
 	screenHeight = floor(GetScreenHeight() / GetCVar("RenderScale"))
 	
-	rtbMainFrame:SetResizeBounds(screenWidth / 10, screenHeight / 12, screenWidth / 4, screenHeight / 4)
+	print(screenHeight)
+	rtbMainFrame:SetResizeBounds(screenWidth / 10, screenHeight / 12, screenWidth / 4, screenHeight / 3)
 	--rtbResizeFrame(rtbMainFrame)
 
 	local backdropInfo =
@@ -261,6 +262,8 @@ function rtbInitializeFrames()
 	end)
 	rtbResizeGrabber:SetScript("OnMouseUp", function(self, button)
 		rtbMainFrame:StopMovingOrSizing()
+			
+		eb:SetSize(rtbMainFrame:GetWidth() -35, rtbMainFrame:GetHeight())
 	end)
 
 	-- Close button
@@ -442,8 +445,6 @@ function rtbInitializeFrames()
 	
 	function dungeonDropMenu:SetValue(dungeonID, name)
 		tempText = dungeonTexts[dungeonID]
-		
-		print(locked)
 		
 		if(tempText ~= nil) then
 			eb:SetText(tempText)
